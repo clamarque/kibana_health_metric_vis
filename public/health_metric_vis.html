@@ -1,0 +1,8 @@
+<div ng-controller="KbnHealthMetricVisController" class="health-metric-vis">
+    <div class="health-metric-container" ng-repeat="metric in metrics">
+        <div class="health-metric-value" ng-style="{'background': metric.color, 'color': metric.fontColor }">
+            <div ng-style="{'font-size': vis.params.fontSize+'pt'}">{{metric.formattedValue}}</div>
+            <div>{{metric.label}}</div>
+        </div>
+    </div>
+</div>
