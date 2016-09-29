@@ -9,7 +9,7 @@ This plugin is inspired by the plugin [health_metric_vis](https://github.com/Dea
 
 ##Quick Start
 
-You can install this plugin in Kibana ( >=4.5) by doing the following instructions: 
+You can install this plugin in Kibana ( >=4.2) by doing the following instructions: 
 
 `git clone https://github.com/clamarque/kibana_health_metric_vis.git`
 
