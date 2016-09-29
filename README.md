@@ -21,8 +21,8 @@ You can install this plugin in Kibana ( >=4.5) by doing the following instructio
 
 Click on the button **'Visualize'** and create a new visualization to select **'Health Color Metric'**
 
-In options, you can change the colors you want with hexadecimal color code **(#FFFFFF)** or by the color name **(white)**. If you change the color indicating the name of the color, the color indicator **will not update** and display **the black color by default**.
+> In options, you can change the colors you want with hexadecimal color code **(#FFFFFF)** or by the color name **(white)**. If you change the color indicating the name of the color, the color indicator **will not update** and display **the black color by default**.
 
-You can also specify a maximum threshold **(critical)** that is not exceeded but also an alert threshold **(warning)**.
+You can also specify a maximum threshold **(critical)** that is not exceeded but also an alert threshold **(warning)**. The color will be modified according to the state of health of the metric.
 
 
