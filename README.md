@@ -4,7 +4,7 @@ A kibana plugin  to change color of metric depending to the planned state of hea
 This plugin is inspired by the plugin [health_metric_vis](https://github.com/DeanF/health_metric_vis)
 
 <p align="center">
-<img src="https://github.com/clamarque/Kibana_health_metric_vis/blob/master/img/demo.PNG">
+<img src="https://github.com/clamarque/Kibana_health_metric_vis/blob/master/img/demo.jpg">
 </p>
 
 ##Quick Start
@@ -22,5 +22,7 @@ You can install this plugin in Kibana ( >=4.5) by doing the following instructio
 Click on the button **'Visualize'** and create a new visualization to select **'Health Color Metric'**
 
 In options, you can change the colors you want with hexadecimal color code **(#FFFFFF)** or by the color name **(white)**. If you change the color indicating the name of the color, the color indicator **will not update** and display **the black color by default**.
+
+You can also specify a maximum threshold **(critical)** that is not exceeded but also an alert threshold **(warning)**.
 
 
