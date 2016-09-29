@@ -18,7 +18,7 @@ define(function (require) {
         if (val <= visParams.redThreshold) {
           return visParams.redColor;
         }
-        else if (val < visParams.greenThreshold) {
+        else if (val <= visParams.yellowThreshold && val > visParams.redThreshold ) {
           return visParams.yellowColor;
         }
         else {
@@ -26,14 +26,14 @@ define(function (require) {
         }
       }
       else {
-          if (val <= visParams.greenThreshold) {
-              return visParams.greenColor;
+          if (val >= visParams.redThreshold) {
+              return visParams.redColor;
           }
-          else if (val < visParams.redThreshold) {
+          else if (val >= visParams.yellowThreshold && val < visParams.redThreshold) {
               return visParams.yellowColor;
           }
           else {
-              return visParams.redColor;
+              return visParams.greenColor;
           }
       }
     }

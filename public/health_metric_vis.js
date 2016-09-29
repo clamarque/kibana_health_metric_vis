@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 define(function (require) {
   // we need to load the css ourselves
   require('plugins/health_metric_vis/health_metric_vis.less');
@@ -29,7 +27,7 @@ define(function (require) {
           fontColor: 'white',
           invertScale: false,
           redThreshold: 0,
-          greenThreshold: 0,
+          yellowThreshold: 0,
           redColor: "#fd482f",
           yellowColor: "#ffa500",
           greenColor: "#6dc066"
