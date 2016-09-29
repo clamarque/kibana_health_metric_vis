@@ -4,7 +4,7 @@ A kibana plugin  to change color of metric depending to the planned state of hea
 This plugin is inspired by the plugin [health_metric_vis](https://github.com/DeanF/health_metric_vis)
 
 <p align="center">
-<img src="https://github.com/clamarque/Kibana_health_metric_vis/blob/master/img/demo.jpg">
+<img src="https://github.com/clamarque/Kibana_health_metric_vis/blob/master/assets/img/demo.jpg">
 </p>
 
 ##Quick Start
