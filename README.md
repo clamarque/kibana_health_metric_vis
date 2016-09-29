@@ -25,4 +25,6 @@ Click on the button **'Visualize'** and create a new visualization to select **'
 
 You can also specify a maximum threshold **(critical)** that is not exceeded but also an alert threshold **(warning)**. The color will be modified according to the state of health of the metric.
 
+[see more details, the conception of plugin](https://github.com/clamarque/Kibana_health_metric_vis/wiki)
+
 
