@@ -13,9 +13,11 @@ You can install this plugin in Kibana ( >=4.2) by doing the following instructio
 
 `git clone https://github.com/clamarque/kibana_health_metric_vis.git`
 
-`zip -r kibana_health_metric_vis kibana_health_metric_vis`
+`cd kibana_health_metric_vis.git`
 
-`$KIBANA_HOME/bin/kibana plugin --install health-metric-vis -u file://$HOME_DIRECTORY/kibana_health_metric_vis.zip`
+`zip -r kibana kibana`
+
+`$KIBANA_HOME/bin/kibana plugin --install health-metric-vis -u file://$HOME_DIRECTORY/kibana.zip`
 
 ## How to use
 
