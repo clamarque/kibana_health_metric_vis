@@ -19,7 +19,7 @@ For kibana 5:
 
 For kibana 4:
 
-`$KIBANA_HOME/bin/kibana plugin install health-metric-vis -u https://github.com/clamarque/kibana_health_metric_vis/releases/download/v4.2/kibana_health_metric_vis-4.2.zip`
+`$KIBANA_HOME/bin/kibana plugin --install health-metric-vis -u https://github.com/clamarque/kibana_health_metric_vis/releases/download/v4.2/kibana_health_metric_vis-4.2.zip`
 
 ###Offline
 
