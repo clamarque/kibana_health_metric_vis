@@ -14,7 +14,6 @@ module.controller('KbnHealthMetricVisController', function ($scope, Private) {
   }
   
   function getColor(val, visParams) {
-    console.log('function getColor');
     if (!visParams.invertScale) {
       if (val <= visParams.redThreshold) {
         return visParams.redColor;
@@ -39,7 +38,6 @@ module.controller('KbnHealthMetricVisController', function ($scope, Private) {
     }
   }
   function getFontColor(val,visParams){
-    console.log('function getFontcolor');
     if(val != null) {
       return visParams.fontColor;
     }
