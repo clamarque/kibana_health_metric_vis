@@ -17,6 +17,8 @@ For kibana 5:
 
 `$KIBANA_HOME/bin/kibana-plugin install https://github.com/clamarque/kibana_health_metric_vis/releases/download/v5.0/kibana_health_metric_vis-5.0.zip `
 
+Note: You can also look in [releases](https://github.com/clamarque/kibana_health_metric_vis/releases) for another version than this one!
+
 For kibana 4:
 
 `$KIBANA_HOME/bin/kibana plugin --install health-metric-vis -u https://github.com/clamarque/kibana_health_metric_vis/releases/download/v4.2/kibana_health_metric_vis-4.2.zip`
