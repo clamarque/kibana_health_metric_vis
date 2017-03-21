@@ -7,11 +7,11 @@ This plugin is inspired by the plugin [health_metric_vis](https://github.com/Dea
 <img src="https://github.com/clamarque/Kibana_health_metric_vis/blob/master/assets/img/demo.PNG">
 </p>
 
-##Quick Start
+## Quick Start
 
 You can install this plugin in Kibana 5.0.0 by doing the following instructions:
 
-###Simple installation
+### Simple installation
 
 For kibana 5:
 
@@ -23,7 +23,7 @@ For kibana 4:
 
 `$KIBANA_HOME/bin/kibana plugin --install health-metric-vis -u https://github.com/clamarque/kibana_health_metric_vis/releases/download/v4.2/kibana_health_metric_vis-4.2.zip`
 
-###Offline
+### Offline
 
 For kibana 5:
 
