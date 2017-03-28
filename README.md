@@ -49,4 +49,6 @@ You can also specify a maximum threshold **(critical)** that is not exceeded but
 
 [See more details, the conception of plugin](https://github.com/clamarque/Kibana_health_metric_vis/wiki)
 
+## Others plugins
 
+You can see others plugins listed by Elastic [here](https://www.elastic.co/guide/en/kibana/current/known-plugins.html)
