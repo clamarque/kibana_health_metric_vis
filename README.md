@@ -49,6 +49,10 @@ You can also specify a maximum threshold **(critical)** that is not exceeded but
 
 [See more details, the conception of plugin](https://github.com/clamarque/Kibana_health_metric_vis/wiki)
 
+## Update 
+
+If the version doesn't match yours, you can send me a pull request with the latest version. For that, you need to modify the package.json with your version. I will create a new release with it.
+
 ## Others plugins
 
 You can see others plugins listed by Elastic [here](https://www.elastic.co/guide/en/kibana/current/known-plugins.html)
