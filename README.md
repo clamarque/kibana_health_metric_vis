@@ -9,13 +9,13 @@ This plugin is inspired by the plugin [health_metric_vis](https://github.com/Dea
 
 ## Quick Start
 
-You can install this plugin in Kibana 5.0.0 by doing the following instructions:
+You can install this plugin in Kibana 5.x.x by doing the following instructions:
 
 ### Simple installation
 
 For kibana 5:
 
-`$KIBANA_HOME/bin/kibana-plugin install https://github.com/clamarque/kibana_health_metric_vis/releases/download/v5.0/kibana_health_metric_vis-5.0.zip `
+`$KIBANA_HOME/bin/kibana-plugin install https://github.com/clamarque/kibana_health_metric_vis/releases/download/v5.0/kibana_health_metric_vis-5.x.x.zip `
 
 Note: You can also look in [releases](https://github.com/clamarque/kibana_health_metric_vis/releases) for another version than this one!
 
@@ -28,14 +28,14 @@ For kibana 4:
 For kibana 5:
 
 * Download the plugin [here](https://github.com/clamarque/kibana_health_metric_vis/releases/)
-* `$KIBANA_HOME/bin/kibana-plugin install file:///$HOME_DIRECTORY/kibana_health_metric_vis-5.0.zip`
+* `$KIBANA_HOME/bin/kibana-plugin install file:///$HOME_DIRECTORY/kibana_health_metric_vis-5.x.x.zip`
 
 For kibana 4:
 
 * Download the plugin [here](https://github.com/clamarque/kibana_health_metric_vis/releases/download/v4.2/kibana_health_metric_vis-4.2.zip)
 * `$KIBANA_HOME/bin/kibana plugin --install health-metric-vis -u file:///$HOME_DIRECTORY/kibana_health_metric_vis-4.2.zip`
 
-You can find the command for Windows [here](https://github.com/clamarque/Kibana_health_metric_vis/wiki#some-commands)
+You can find the command for Windows [here](https://github.com/clamarque/Kibana_health_metric_vis/wiki#install-plugin-with-windows)
 
 **Warning:** If you download or clone the directory directly, the installation will not work. In fact since kibana 5, it is necessary to put all the files under a folder empty called kibana (This does not apply to version 4).
 
