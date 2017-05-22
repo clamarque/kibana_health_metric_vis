@@ -4,7 +4,7 @@ import uiModules from 'ui/modules';
 
 const module = uiModules.get('kibana/health_metric_vis', ['kibana']);
 
-module.controller('KbnHealthMetricVisController', function ($scope, Private) {
+module.controller('KbnHealthMetricVisController', function ($scope, $element, Private) {
   const tabifyAggResponse = Private(AggResponseTabifyTabifyProvider);
 
   const metrics = $scope.metrics = [];
@@ -67,8 +67,13 @@ module.controller('KbnHealthMetricVisController', function ($scope, Private) {
 
   $scope.$watch('esResponse', function (resp) {
     if (resp) {
+      const options = {
+        asAggConfigResults: true
+      };
+
       metrics.length = 0;
-      $scope.processTableGroups(tabifyAggResponse($scope.vis, resp));
+      $scope.processTableGroups(tabifyAggResponse($scope.vis, resp, options));
+      $element.trigger('renderComplete');
     }
   });
 });
