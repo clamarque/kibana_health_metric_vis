@@ -50,7 +50,7 @@ module.controller('KbnHealthMetricVisController', function ($scope, $element, Pr
     tableGroups.tables.forEach(function (table) {
       table.columns.forEach(function (column, i) {
         const fieldFormatter = table.aggConfig(column).fieldFormatter();
-        let value = table.rows[0][i];
+        let value = table.rows[0][i].value;
         let formattedValue = isInvalid(value) ? '?' : fieldFormatter(value);
         let color = getColor(value, $scope.vis.params);
         let fontColor = getFontColor(value, $scope.vis.params);
