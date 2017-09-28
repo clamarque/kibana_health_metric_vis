@@ -1,19 +1,17 @@
 import 'plugins/health_metric_vis/health_metric_vis.less';
 import 'plugins/health_metric_vis/health_metric_vis_controller';
-import VisVisTypeProvider from 'ui/vis/vis_type';
-import TemplateVisTypeTemplateVisTypeProvider from 'ui/template_vis_type/template_vis_type';
-import VisSchemasProvider from 'ui/vis/schemas';
-import healthMetricVisTemplate from 'plugins/health_metric_vis/health_metric_vis.html';
-import healthMetricVisParamsTemplate from 'plugins/health_metric_vis/health_metric_vis_params.html';
-import visTypesRegistry from 'ui/registry/vis_types';
 import image from './images/icon-number.svg';
 
-// Register the provider with the visTypes registry
-visTypesRegistry.register(HealthMetricVisProvider);
+import { TemplateVisTypeProvider } from 'ui/template_vis_type';
+import { VisVisTypeProvider } from 'ui/vis/vis_type';
+import { VisTypesRegistryProvider } from 'ui/registry/vis_types';
+import { VisSchemasProvider } from 'ui/vis/schemas';
+// register the provider with the visTypes registry so that other know it exists
+VisTypesRegistryProvider.register(HealthMetricVisProvider);
 
-function HealthMetricVisProvider(Private) {
+export default function HealthMetricVisProvider(Private) {
   const VisType = Private(VisVisTypeProvider)
-  const TemplateVisType = Private(TemplateVisTypeTemplateVisTypeProvider);
+  const TemplateVisType = Private(TemplateVisTypeProvider);
   const Schemas = Private(VisSchemasProvider);
 
   // return the visType object, which kibana will use to display and configure new
@@ -24,7 +22,7 @@ function HealthMetricVisProvider(Private) {
     image,
     description: 'Displays a metric with a color according to the planned state of health.',
     category: VisType.CATEGORY.DATA,
-    template: healthMetricVisTemplate,
+    template: require('plugins/health_metric_vis/health_metric_vis.html'),
     params: {
       defaults: {
         handleNoResults: true,
@@ -37,7 +35,7 @@ function HealthMetricVisProvider(Private) {
         yellowColor: "#ffa500",
         greenColor: "#6dc066"
       },
-      editor: healthMetricVisParamsTemplate
+      editor: require('plugins/health_metric_vis/health_metric_vis_params.html')
     },
     implementsRenderComplete: true,
     schemas: new Schemas([
@@ -55,6 +53,3 @@ function HealthMetricVisProvider(Private) {
     ])
   });
 }
-
-// export the provider so that the visType can be required with Private()
-export default HealthMetricVisProvider;

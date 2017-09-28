@@ -1,11 +1,11 @@
 import _ from 'lodash';
-import AggResponseTabifyTabifyProvider from 'ui/agg_response/tabify/tabify';
-import uiModules from 'ui/modules';
+import { AggResponseTabifyProvider } from 'ui/agg_response/tabify/tabify';
+import { uiModules } from 'ui/modules';
 
 const module = uiModules.get('kibana/health_metric_vis', ['kibana']);
 
 module.controller('KbnHealthMetricVisController', function ($scope, $element, Private) {
-  const tabifyAggResponse = Private(AggResponseTabifyTabifyProvider);
+  const tabifyAggResponse = Private(AggResponseTabifyProvider);
 
   const metrics = $scope.metrics = [];
 
