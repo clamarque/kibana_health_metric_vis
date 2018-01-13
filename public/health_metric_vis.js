@@ -2,28 +2,29 @@ import 'plugins/health_metric_vis/health_metric_vis.less';
 import 'plugins/health_metric_vis/health_metric_vis_controller';
 import image from './images/icon-number.svg';
 
-import { TemplateVisTypeProvider } from 'ui/template_vis_type';
-import { VisVisTypeProvider } from 'ui/vis/vis_type';
+import { VisFactoryProvider } from 'ui/vis/vis_factory';
+import { CATEGORY } from 'ui/vis/vis_category';
 import { VisTypesRegistryProvider } from 'ui/registry/vis_types';
-import { VisSchemasProvider } from 'ui/vis/schemas';
+import { VisSchemasProvider } from 'ui/vis/editors/default/schemas';
+
+import healthMetricVisTemplate from 'plugins/health_metric_vis/health_metric_vis.html';
+import healthMetricVisParams from 'plugins/health_metric_vis/health_metric_vis_params.html';
 // register the provider with the visTypes registry so that other know it exists
 VisTypesRegistryProvider.register(HealthMetricVisProvider);
 
 export default function HealthMetricVisProvider(Private) {
-  const VisType = Private(VisVisTypeProvider)
-  const TemplateVisType = Private(TemplateVisTypeProvider);
   const Schemas = Private(VisSchemasProvider);
+  const VisFactory = Private(VisFactoryProvider);
 
   // return the visType object, which kibana will use to display and configure new
   // Vis object of this type.
-  return new TemplateVisType({
+  return VisFactory.createAngularVisualization({
     name: 'health-metric',
     title: 'Health Metric',
     image,
     description: 'Displays a metric with a color according to the planned state of health.',
-    category: VisType.CATEGORY.DATA,
-    template: require('plugins/health_metric_vis/health_metric_vis.html'),
-    params: {
+    category: CATEGORY.DATA,
+    visConfig: {
       defaults: {
         handleNoResults: true,
         fontSize: 60,
@@ -35,21 +36,24 @@ export default function HealthMetricVisProvider(Private) {
         yellowColor: "#ffa500",
         greenColor: "#6dc066"
       },
-      editor: require('plugins/health_metric_vis/health_metric_vis_params.html')
+      template: healthMetricVisTemplate
     },
     implementsRenderComplete: true,
-    schemas: new Schemas([
-      {
-        group: 'metrics',
-        name: 'metric',
-        title: 'Metric',
-        min: 1,
-        max: 1,
-        aggFilter: ['!derivative', '!geo_centroid'],
-        defaults: [
-          { type: 'count', schema: 'metric' }
-        ]
-      }
-    ])
+    editorConfig: {
+      optionsTemplate: healthMetricVisParams,
+      schemas: new Schemas([
+        {
+          group: 'metrics',
+          name: 'metric',
+          title: 'Metric',
+          min: 1,
+          max: 1,
+          aggFilter: ['!derivative', '!geo_centroid'],
+          defaults: [
+            { type: 'count', schema: 'metric' }
+          ]
+        }
+      ])
+    }
   });
 }
