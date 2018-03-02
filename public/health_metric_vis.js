@@ -1,5 +1,4 @@
 import 'plugins/health_metric_vis/health_metric_vis.less';
-import 'plugins/health_metric_vis/health_metric_vis_params';
 import mainTemplate from 'plugins/health_metric_vis/health_metric_vis_params.html';
 import { VisFactoryProvider } from 'ui/vis/vis_factory';
 import { CATEGORY } from 'ui/vis/vis_category';
@@ -36,21 +35,13 @@ function HealthMetricVisProvider(Private) {
         type: 'metric',
         metric: {
           percentageMode: false,
-          useRanges: false,
-          colorSchema: 'Green to Red',
-          metricColorMode: 'None',
           colorsRange: [
-            { from: 0, to: 10000}
+            { from: 0, to: 10000 }
           ],
           labels: {
             show: true
           },
-          invertColors: false,
           style: {
-            bgFill: '#000',
-            bgColor: true,
-            labelColor: true,
-            subtext: '',
             fontSize: 60,
             fontColor: 'black',
             invertScale: false,

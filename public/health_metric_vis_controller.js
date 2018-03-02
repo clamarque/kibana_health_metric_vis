@@ -1,62 +1,21 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { getHeatmapColors } from 'ui/vislib/components/color/heatmap_color';
-import { isColorDark } from '@elastic/eui';
 import classNames from 'classnames';
 
 export class HealthMetricVisComponent extends Component {
 
-  _getLabels() {
-    const config = this.props.vis.params.metric;
-    const isPercentageMode = config.percentageMode;
-    const colorsRange = config.colorsRange;
-    const max = _.last(colorsRange).to;
-    const labels = [];
-    colorsRange.forEach(range => {
-      const from = isPercentageMode ? Math.round(100 * range.from / max) : range.from;
-      const to = isPercentageMode ? Math.round(100 * range.to / max) : range.to;
-      labels.push(`${from} - ${to}`);
-    });
-
-    return labels;
-  }
-
-  _getColors() {
-    const config = this.props.vis.params.metric;
-    const invertColors = config.invertColors;
-    const colorSchema = config.colorSchema;
-    const colorsRange = config.colorsRange;
-    const labels = this._getLabels();
-    const colors = {};
-    for (let i = 0; i < labels.length; i += 1) {
-      const divider = Math.max(colorsRange.length - 1, 1);
-      const val = invertColors ? 1 - i / divider : i / divider;
-      colors[labels[i]] = getHeatmapColors(val, colorSchema);
-    }
-    return colors;
-  }
-
-  _getBucket(val) {
-    const config = this.props.vis.params.metric;
-    let bucket = _.findIndex(config.colorsRange, range => {
-      return range.from <= val && range.to > val;
-    });
-
-    if (bucket === -1) {
-      if (val < config.colorsRange[0].from) bucket = 0;
-      else bucket = config.colorsRange.length - 1;
-    }
-
-    return bucket;
-  }
-
-  _getColor(val, labels, colors) {
-    const bucket = this._getBucket(val);
-    const label = labels[bucket];
-    return colors[label];
-  }
-
   _setColor(val, visParams) {
+    const isPercentageMode = visParams.percentageMode;
+    const min = visParams.colorsRange[0].from;
+    const max = _.last(visParams.colorsRange).to;  
+
+    if (isPercentageMode) {
+      const percentage = Math.round(100 * (val - min) / (max - min));
+      val = percentage;
+    } else {
+      val = val;
+    }
+
     if (!visParams.style.invertScale) {
       if (val <= visParams.style.redThreshold) {
         return visParams.style.redColor;
@@ -76,21 +35,11 @@ export class HealthMetricVisComponent extends Component {
     }
   }
 
-  _needsLightText(bgColor) {
-    const color = /rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/.exec(bgColor);
-    if (!color) {
-      return false;
-    }
-    return isColorDark(parseInt(color[1]), parseInt(color[2]), parseInt(color[3]));
-  }
-
   _processTableGroups(tableGroups) {
     const config = this.props.vis.params.metric;
-    const isPercentageMode = config.percentageMode;
+    const isPercentageMode = config.percentageMode;  
     const min = config.colorsRange[0].from;
     const max = _.last(config.colorsRange).to;
-    const colors = this._getColors();
-    const labels = this._getLabels();
     const metrics = [];
 
     tableGroups.tables.forEach((table) => {
@@ -108,7 +57,6 @@ export class HealthMetricVisComponent extends Component {
 
           let title = column.title;
           let value = row[i];
-          const color = this._getColor(value, labels, colors);
           const updateColor = this._setColor(value, config);
 
           if (isPercentageMode) {
@@ -126,14 +74,9 @@ export class HealthMetricVisComponent extends Component {
             }
           }
 
-          const shouldColor = config.colorsRange.length > 1;
-
           metrics.push({
             label: title,
             value: value,
-            color: shouldColor && config.style.labelColor ? color : null,
-            bgColor: shouldColor && config.style.bgColor ? color : null,
-            lightText: shouldColor && config.style.bgColor && this._needsLightText(color),
             colorThreshold: updateColor
           });
         });
@@ -149,10 +92,6 @@ export class HealthMetricVisComponent extends Component {
       color: `${this.props.vis.params.metric.style.fontColor}`,
     };
 
-    const containerClassName = classNames('metric-container', {
-      'metric-container--light': metric.lightText
-    });
-
     return (
       <div
         className="metric-vis-container"
@@ -160,7 +99,7 @@ export class HealthMetricVisComponent extends Component {
       >
         <div
           key={index}
-          className={containerClassName}
+          className="metric-container"
           style={{ backgroundColor: metric.bgColor }}
         >
           <div
