@@ -1,46 +1,107 @@
-<div class="form-group">
-  <label>Font Size - {{ vis.params.fontSize }}pt</label>
-  <input type="range" ng-model="vis.params.fontSize" class="form-control" min="12" max="120" />
-</div>
-<div class="form-group">
-  <label>Font color:</label>
-  <div class="form-subgroup">
-    <input type="color" ng-model="vis.params.fontColor" class="form-control" disabled="disabled" />
-    <input type="text" ng-model="vis.params.fontColor" class="form-control" />
+<div class="kuiSideBarSection">
+  <!-- Percentage Mode -->
+  <div class="kuiSideBarFormRow">
+    <label class="kuiSideBarFormRow__label" for="percentageMode">
+      Percentage Mode
+    </label>
+    <div class="kuiSideBarFormRow__control">
+      <input class="kuiCheckBox" id="percentageMode" type="checkbox" ng-model="vis.params.metric.percentageMode">
+    </div>
   </div>
-</div>
-<div class="form-group">
-  <label>Critical threshold <span class="form-label" ng-bind-template="({{!vis.params.invertScale ? 'below':'above'}} this value, the state will be critical):"></span></label>
-  <input type="number" ng-model="vis.params.redThreshold" class="form-control" />
-</div>
-<div class="form-group">
-  <label>Warning threshold <span class="form-label" ng-bind-template="({{!vis.params.invertScale ? 'below':'above'}} this value, the state will be on alert):"></span></label>
-  <input type="number" ng-model="vis.params.yellowThreshold" class="form-control" />
-</div>
-<div class="form-group">
-  <label>
-    <input type="checkbox" ng-model="vis.params.invertScale" />
-    Invert scale
-  </label>
-</div>
-<div class="form-group">
-  <label>Default color:</label>
-  <div class="form-subgroup">
-    <input type="color" ng-model="vis.params.greenColor" class="form-control" disabled="disabled" />
-    <input type="text" ng-model="vis.params.greenColor" class="form-control" />
+  <!-- show Labels -->
+  <div class="kuiSideBarFormRow">
+    <label class="kuiSideBarFormRow__label" for="showLabels">
+      Show Labels
+    </label>
+    <div class="kuiSideBarFormRow__control">
+      <input class="kuiCheckBox" id="showLabels" type="checkbox" ng-model="vis.params.metric.labels.show">
+    </div>
   </div>
-</div>
-<div class="form-group">
-  <label>Critical color:</label>
-  <div class="form-subgroup">
-    <input type="color" ng-model="vis.params.redColor" class="form-control" disabled="disabled" />
-    <input type="text" ng-model="vis.params.redColor" class="form-control" />
-  </div>
-</div>
-<div class="form-group">
-  <label>Warning color:</label>
-  <div class="form-subgroup">
-    <input type="color" ng-model="vis.params.yellowColor" class="form-control" disabled="disabled" />
-    <input type="text" ng-model="vis.params.yellowColor" class="form-control" />
+
+  <!-- Style -->
+  <div>
+    <div class="kuiSideBarCollapsibleTitle">
+      <div kbn-accessible-click aria-expanded="{{!!showStyle}}" aria-controls="metricOptionsStyle" aria-label="Toggle style options"
+        class="kuiSideBarCollapsibleTitle__label" ng-click="showStyle = !showStyle">
+        <span aria-hidden="true" ng-class="{
+            'fa-caret-down': showStyle,
+            'fa-caret-right': !showStyle
+            }" class="fa fa-caret-right kuiSideBarCollapsibleTitle__caret"></span>
+        <span class="kuiSideBarCollapsibleTitle__text">
+          Style
+        </span>
+      </div>
+    </div>
+    <div id="metricOptionsStyle" ng-if="showStyle" class="kuiSideBarCollapsibleSection">
+
+      <div class="kuiSideBarSection">
+        <!-- font Size -->
+        <div class="kuiSideBarFormRow">
+          <label class="kuiSideBarFormRow__label" for="metricFontSize">
+            Font Size (
+            <span ng-bind="vis.params.metric.style.fontSize"></span>pt)
+          </label>
+          <div class="kuiSideBarFormRow__control">
+            <input id="metricFontSize" type="range" ng-model="vis.params.metric.style.fontSize" class="form-control" min="12" max="120"
+            />
+          </div>
+        </div>
+        <!-- font Color -->
+        <div class="kuiSideBarFormRow">
+          <label class="kuiSideBarFormRow__label" for="metricFontColor">
+            Font Color
+          </label>
+          <div class="kuiSideBarFormRow__control">
+            <input type="color" ng-model="vis.params.metric.style.fontColor" class="form-control view-color" disabled="disabled" />
+            <input id="metricFontColor" type="text" ng-model="vis.params.metric.style.fontColor" class="form-control" />
+          </div>
+        </div>
+        <!-- RED Threshold -->
+        <div class="kuiSideBarFormRow">
+          <label class="kuiSideBarFormRow__label threshold" for="metricCriticalThreshold">
+            Critical Threshold <span class="threshold__info" ng-bind-template="({{!vis.params.metric.style.invertScale ? 'below':'above'}} this value, the state will be critical)"></span>
+          </label>
+          <div class="kuiSideBarFormRow__control">
+            <input id="metricCriticalThreshold" type="number" ng-model="vis.params.metric.style.redThreshold" class="form-control threshold__number">
+          </div>
+        </div>
+        <!-- WARNING Threshold -->
+        <div class="kuiSideBarFormRow">
+          <label class="kuiSideBarFormRow__label threshold" for="metricWarningThreshold">
+            Warning Threshold <span class="threshold__info" ng-bind-template="({{!vis.params.metric.style.invertScale ? 'below':'above'}} this value, the state will be on alert)"></span>
+          </label>
+          <div class="kuiSideBarFormRow__control">
+            <input id="metricWarningThreshold" type="number" ng-model="vis.params.metric.style.yellowThreshold" class="form-control threshold__number">
+          </div>
+        </div>
+        <div class="kuiSideBarFormRow">
+          <input type="checkbox" ng-model="vis.params.metric.style.invertScale"> Invert Scale
+        </div>
+        <!-- Default color -->
+        <div class="kuiSideBarFormRow">
+          <label class="kuiSideBarFormRow__label" for="metricDefaultColor">Default Color</label>
+          <div class="kuiSideBarFormRow__control">
+            <input type="color" ng-model="vis.params.metric.style.greenColor" class="form-control view-color" disabled="disabled">
+            <input id="metricDefaultColor" type="text" ng-model="vis.params.metric.style.greenColor" class="form-control">
+          </div>
+        </div>
+        <!-- Critical color -->
+        <div class="kuiSideBarFormRow">
+          <label class="kuiSideBarFormRow__label" for="metricCriticalColor">Critical Color</label>
+          <div class="kuiSideBarFormRow__control">
+            <input type="color" ng-model="vis.params.metric.style.redColor" class="form-control view-color" disabled="disabled">
+            <input id="metricCriticalColor" type="text" ng-model="vis.params.metric.style.redColor" class="form-control">
+          </div>
+        </div>
+        <!-- Warning color -->
+        <div class="kuiSideBarFormRow">
+          <label class="kuiSideBarFormRow__label" for="metricWarningColor">Warning Color</label>
+          <div class="kuiSideBarFormRow__control">
+            <input type="color" ng-model="vis.params.metric.style.yellowColor" class="form-control view-color" disabled="disabled">
+            <input id="metricWarningColor" type="text" ng-model="vis.params.metric.style.yellowColor" class="form-control">
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

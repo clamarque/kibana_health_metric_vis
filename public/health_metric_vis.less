@@ -1,45 +1,45 @@
 @import (reference) "~ui/styles/mixins.less";
 
-.health-metric-vis {
+.metric-vis {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  align-content: space-around;
-
-  .health-metric-value {
-    font-weight: bold;
-    .ellipsis();
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: inherit;
-  }
-
-  .health-metric-container {
-    text-align: center;
-    width: inherit;
-    height: inherit;
-  }
+  text-align: center;
 }
-.form-label {
-  display: block;
-  font-size: 11px;
-}
-.form-subgroup {
+.metric-vis-container {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  flex: 1;
 }
-.form-subgroup input[type=color] {
-  border: none;
-  padding: 0;
-  margin: 5px;
-  width: 35px;
-  height: 35px;
-  background-color: inherit;
+
+.kuiSideBarFormRow {
+  .threshold {
+    flex-direction: column;
+    flex: 1 1 30% !important;
+  }
+  &__label {
+    .threshold__info {
+      display: block;
+      margin: 5px 5px 0 0;
+      font-size: 10px;
+    }
+  }
+  &__control {
+
+    .view-color {
+      width: 80px;
+      border: none;
+      background: transparent;
+    }
+    .threshold__number {
+      margin: 0 0 0 15px;
+    }
+  }
+}
+
+input[type=checkbox] {
+  margin: 0 5px 0 0;
 }
