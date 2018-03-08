@@ -1,21 +1,23 @@
 import 'plugins/health_metric_vis/health_metric_vis.less';
 import 'plugins/health_metric_vis/health_metric_vis_controller';
 
-import TemplateVisTypeTemplateVisTypeProvider from 'ui/template_vis_type/template_vis_type';
-import VisSchemasProvider from 'ui/vis/schemas';
 import healthMetricVisTemplate from 'plugins/health_metric_vis/health_metric_vis.html';
 import healthMetricVisParamsTemplate from 'plugins/health_metric_vis/health_metric_vis_params.html';
 
-// Register visualisation plugin
-require('ui/registry/vis_types').register(HealthMetricVisProvider);
+import { TemplateVisTypeProvider } from 'ui/template_vis_type/template_vis_type';
+import { VisSchemasProvider } from 'ui/vis/schemas';
+import { VisTypesRegistryProvider } from 'ui/registry/vis_types';
+
+// register the provider with the visTypes registry
+VisTypesRegistryProvider.register(HealthMetricVisProvider);
 
 function HealthMetricVisProvider(Private) {
-  const TemplateVisType = Private(TemplateVisTypeTemplateVisTypeProvider);
   const Schemas = Private(VisSchemasProvider);
+  const TemplateVisType = Private(TemplateVisTypeProvider);
 
   // return the visType object, which kibana will use to display and configure new
   // Vis object of this type.
-  return new TemplateVisType({
+  return  new TemplateVisType({
     name: 'health-metric',
     title: 'Health Color Metric',
     description: 'Displays a metric with a color according to the planned state of health.',

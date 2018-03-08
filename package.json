@@ -1,6 +1,6 @@
 {
     "name": "health_metric_vis",
-    "version": "5.3.1",
+    "version": "5.5.2",
     "author": "clamarque",
     "main": "index.js"
 }
