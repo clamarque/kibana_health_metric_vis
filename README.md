@@ -15,7 +15,7 @@ You can install this plugin in Kibana 5.x.x by doing the following instructions:
 
 For kibana 6:
 
-`$KIBANA_HOME/bin/kibana-plugin install https://github.com/clamarque/kibana_health_metric_vis/releases/download/v5.4/kibana_health_metric_vis-6.2.0.zip `
+`$KIBANA_HOME/bin/kibana-plugin install https://github.com/clamarque/kibana_health_metric_vis/releases/download/v6.0/kibana_health_metric_vis-6.0.0.zip `
 
 Note: You can also look in [releases](https://github.com/clamarque/kibana_health_metric_vis/releases) for another version than this one!
 
@@ -28,7 +28,7 @@ For kibana 4:
 For kibana 6:
 
 * Download the plugin [here](https://github.com/clamarque/kibana_health_metric_vis/releases/download/v6.0/kibana_health_metric_vis-6.0.0.zip)
-* `$KIBANA_HOME/bin/kibana-plugin install file:///$HOME_DIRECTORY/kibana_health_metric_vis-6.2.0.zip`
+* `$KIBANA_HOME/bin/kibana-plugin install file:///$HOME_DIRECTORY/kibana_health_metric_vis-6.0.0.zip`
 
 Note: You can also look in [releases](https://github.com/clamarque/kibana_health_metric_vis/releases) for another version than this one!
 
@@ -58,3 +58,7 @@ If the version doesn't match yours, you can send me a pull request with the late
 ## Others plugins
 
 You can see others plugins listed by Elastic [here](https://www.elastic.co/guide/en/kibana/current/known-plugins.html)
+
+## Author
+
+clamarque
