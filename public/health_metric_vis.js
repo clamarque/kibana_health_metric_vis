@@ -1,8 +1,8 @@
-import 'plugins/health_metric_vis/health_metric_vis.less';
-import mainTemplate from 'plugins/health_metric_vis/health_metric_vis_params.html';
+import './health_metric_vis.less';
+import { mainTemplate } from './health_metric_vis_params.html';
 import { VisFactoryProvider } from 'ui/vis/vis_factory';
 import { CATEGORY } from 'ui/vis/vis_category';
-import { VisSchemasProvider } from 'ui/vis/editors/default/schemas';
+import { Schemas } from 'ui/vis/editors/default/schemas';
 import { VisTypesRegistryProvider } from 'ui/registry/vis_types';
 import { vislibColorMaps } from 'ui/vislib/components/color/colormaps';
 import { HealthMetricVisComponent } from './health_metric_vis_controller';
@@ -11,11 +11,10 @@ import image from './images/icon-number.svg';
 
 // we also need to load the controller and used by the template
 
-// register the provider with the visTypes registry 
+// register the provider with the visTypes registry
 VisTypesRegistryProvider.register(HealthMetricVisProvider);
 
 function HealthMetricVisProvider(Private) {
-  const Schemas = Private(VisSchemasProvider);
   const VisFactory = Private(VisFactoryProvider);
 
   // return the visType object, which kibana will use to display and configure new
@@ -25,7 +24,7 @@ function HealthMetricVisProvider(Private) {
     name: 'health-metric',
     title: 'health-metric',
     image,
-    description: 'Displays a metric with a color according to the planned state of health.',
+    description: 'Displays a metric with a color according to the planned state of health',
     category: CATEGORY.DATA,
     visConfig: {
       component: HealthMetricVisComponent,
