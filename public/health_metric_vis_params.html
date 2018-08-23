@@ -59,7 +59,7 @@
         <!-- RED Threshold -->
         <div class="kuiSideBarFormRow">
           <label class="kuiSideBarFormRow__label threshold" for="metricCriticalThreshold">
-            Critical Threshold <span class="threshold__info" ng-bind-template="({{!vis.params.metric.style.invertScale ? 'below':'above'}} this value, the state will be critical)"></span>
+            Critical Threshold <span class="threshold__info" ng-bind-template="((equal to or {{!vis.params.metric.style.invertScale ? 'below':'above'}} this value, the state will be critical)"></span>
           </label>
           <div class="kuiSideBarFormRow__control">
             <input id="metricCriticalThreshold" type="number" ng-model="vis.params.metric.style.redThreshold" class="form-control threshold__number">
@@ -68,7 +68,7 @@
         <!-- WARNING Threshold -->
         <div class="kuiSideBarFormRow">
           <label class="kuiSideBarFormRow__label threshold" for="metricWarningThreshold">
-            Warning Threshold <span class="threshold__info" ng-bind-template="({{!vis.params.metric.style.invertScale ? 'below':'above'}} this value, the state will be on alert)"></span>
+            Warning Threshold <span class="threshold__info" ng-bind-template="((equal to or {{!vis.params.metric.style.invertScale ? 'below':'above'}} this value, the state will be on alert)"></span>
           </label>
           <div class="kuiSideBarFormRow__control">
             <input id="metricWarningThreshold" type="number" ng-model="vis.params.metric.style.yellowThreshold" class="form-control threshold__number">
