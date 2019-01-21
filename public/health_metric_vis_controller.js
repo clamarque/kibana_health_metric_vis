@@ -1,10 +1,59 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
+import { getHeatmapColors } from 'ui/vislib/components/color/heatmap_color'
 import classNames from 'classnames';
 
 export class HealthMetricVisComponent extends Component {
 
-  _setColor(val, visParams) {
+   _getLabels() {
+    const config = this.props.vis.params.metric;
+    const isPercentageMode = config.percentageMode;
+    const colorsRange = config.colorsRange;
+    const max = _.last(colorsRange).to;
+    const labels = [];
+    colorsRange.forEach(range => {
+      const from = isPercentageMode ? Math.round(100 * range.from / max) : range.from;
+      const to = isPercentageMode ? Math.round(100 * range.to / max) : range.to;
+      labels.push(`${from} - ${to}`);
+    });
+
+    return labels;
+  }
+
+  _getBucket(val) {
+    const config = this.props.vis.params.metric;
+    let bucket = _.findIndex(config.colorsRange, range => {
+      return range.from <= val && range.to > val;
+    });
+
+    if (bucket === -1) {
+      if (val < config.colorsRange[0].from) bucket = 0;
+      else bucket = config.colorsRange.length - 1;
+    }
+
+    return bucket;
+  }
+
+  _getColor(val, labels, colors) {
+    const bucket = this._getBucket(val);
+    const label = labels[bucket];
+    return colors[label];
+  }
+
+  _needsLightText(bgColor) {
+    const color = /rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/.exec(bgColor);
+    if (!color) {
+      return false;
+    }
+    return isColorDark(parseInt(color[1]), parseInt(color[2]), parseInt(color[3]));
+  }
+
+  _getFormattedValue(fieldFormatter, value) {
+    if (_.isNaN(value)) return '-';
+    return fieldFormatter(value);
+  }
+  
+  _setColor(val, labels, visParams) {
     const isPercentageMode = visParams.percentageMode;
     const min = visParams.colorsRange[0].from;
     const max = _.last(visParams.colorsRange).to;  
@@ -35,29 +84,33 @@ export class HealthMetricVisComponent extends Component {
     }
   }
 
-  _processTableGroups(tableGroups) {
+  _processTableGroups(table) {
     const config = this.props.vis.params.metric;
     const isPercentageMode = config.percentageMode;  
     const min = config.colorsRange[0].from;
     const max = _.last(config.colorsRange).to;
+    const labels = this._getLabels();
     const metrics = [];
-
-    tableGroups.tables.forEach((table) => {
-      let bucketAgg;
-
-      table.columns.forEach((column, i) => {
+  
+  let bucketAgg;
+    let bucketColumnId;
+    let rowHeaderIndex;
+  
+      table.columns.forEach((column, columnIndex) => {
         const aggConfig = column.aggConfig;
 
-        if (aggConfig && aggConfig.schema.group === 'buckets') {
+        if (aggConfig && aggConfig.type.type === 'buckets') {
           bucketAgg = aggConfig;
+      rowHeaderIndex = columnIndex;
+      bucketColumnId = column.id;
           return;
         }
 
-        table.rows.forEach(row => {
+        table.rows.forEach((row, rowIndex) => {
 
-          let title = column.title;
-          let value = row[i];
-          const updateColor = this._setColor(value, config);
+          let title = column.name;
+          let value = row[column.id];
+          const updateColor = this._setColor(value, labels, config);
 
           if (isPercentageMode) {
             const percentage = Math.round(100 * (value - min) / (max - min));
@@ -67,7 +120,7 @@ export class HealthMetricVisComponent extends Component {
           if (aggConfig) {
             if (!isPercentageMode) value = aggConfig.fieldFormatter('html')(value);
             if (bucketAgg) {
-              const bucketValue = bucketAgg.fieldFormatter('text')(row[0]);
+              const bucketValue = bucketAgg.fieldFormatter('text')(row[bucketColumnId]);
               title = `${bucketValue} - ${aggConfig.makeLabel()}`;
             } else {
               title = aggConfig.makeLabel();
@@ -77,18 +130,32 @@ export class HealthMetricVisComponent extends Component {
           metrics.push({
             label: title,
             value: value,
-            colorThreshold: updateColor
+            colorThreshold: updateColor,
+      rowIndex: rowIndex,
+            columnIndex: rowHeaderIndex,
+            bucketAgg: bucketAgg, 
           });
         });
       });
-    });
+    
 
     return metrics;
   }
-
+  
+  
+  _filterBucket = (metric) => {
+    if (!metric.filterKey || !metric.bucketAgg) {
+      return;
+    }
+    const table = this.props.visData;
+    this.props.vis.API.events.filter({ table, column: metric.columnIndex, row: metric.rowIndex });
+  };
+  
+  
   _renderMetric = (metric, index) => {
     const metricValueStyle = {
       fontSize: `${this.props.vis.params.metric.style.fontSize}pt`,
+    
       color: `${this.props.vis.params.metric.style.fontColor}`,
     };
 
