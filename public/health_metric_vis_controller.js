@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import classNames from 'classnames';
 
 export class HealthMetricVisComponent extends Component {
 
@@ -44,12 +43,16 @@ export class HealthMetricVisComponent extends Component {
 
     tableGroups.tables.forEach((table) => {
       let bucketAgg;
+      let rowHeaderIndex;
 
       table.columns.forEach((column, i) => {
         const aggConfig = column.aggConfig;
 
         if (aggConfig && aggConfig.schema.group === 'buckets') {
           bucketAgg = aggConfig;
+          // Store the current index, so we later know in which position in the
+          // row array, the bucket agg key will be, so we can create filters on it.
+          rowHeaderIndex = i;
           return;
         }
 

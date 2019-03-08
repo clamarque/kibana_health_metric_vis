@@ -1,5 +1,5 @@
-import 'plugins/health_metric_vis/health_metric_vis.less';
-import mainTemplate from 'plugins/health_metric_vis/health_metric_vis_params.html';
+import './health_metric_vis.less';
+import mainTemplate from './health_metric_vis_params.html';
 import { VisFactoryProvider } from 'ui/vis/vis_factory';
 import { CATEGORY } from 'ui/vis/vis_category';
 import { Schemas } from 'ui/vis/editors/default/schemas';
@@ -24,7 +24,7 @@ function HealthMetricVisProvider(Private) {
     name: 'health-metric',
     title: 'health-metric',
     image,
-    description: 'Displays a metric with a color according to the planned state of health.',
+    description: 'Displays a metric with a color according to the planned state of health',
     category: CATEGORY.DATA,
     visConfig: {
       component: HealthMetricVisComponent,
@@ -66,7 +66,7 @@ function HealthMetricVisProvider(Private) {
           title: 'Metric',
           min: 1,
           aggFilter: [
-            '!std_dev', '!geo_centroid', '!percentiles', '!percentile_ranks',
+            '!std_dev', '!geo_centroid',
             '!derivative', '!serial_diff', '!moving_avg', '!cumulative_sum', '!geo_bounds'],
           defaults: [
             { type: 'count', schema: 'metric' }
