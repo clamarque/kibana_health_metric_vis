@@ -34,6 +34,11 @@ export class HealthMetricVisComponent extends Component {
     }
   }
 
+  _getFormattedValue(fieldFormatter, value) {
+    if (_.isNaN(value)) return '-';
+    return fieldFormatter(value);
+  }
+
   _processTableGroups(tableGroups) {
     const config = this.props.vis.params.metric;
     const isPercentageMode = config.percentageMode;  
@@ -41,25 +46,25 @@ export class HealthMetricVisComponent extends Component {
     const max = _.last(config.colorsRange).to;
     const metrics = [];
 
-    tableGroups.tables.forEach((table) => {
+    tableGroups.tables.forEach((table, tableIndex) => {
       let bucketAgg;
       let rowHeaderIndex;
 
-      table.columns.forEach((column, i) => {
+      table.columns.forEach((column, columnIndex ) => {
         const aggConfig = column.aggConfig;
 
         if (aggConfig && aggConfig.schema.group === 'buckets') {
           bucketAgg = aggConfig;
           // Store the current index, so we later know in which position in the
           // row array, the bucket agg key will be, so we can create filters on it.
-          rowHeaderIndex = i;
+          rowHeaderIndex = columnIndex;
           return;
         }
 
-        table.rows.forEach(row => {
+        table.rows.forEach((row, rowIndex) => {
 
           let title = column.title;
-          let value = row[i];
+          let value = row[columnIndex];
           const updateColor = this._setColor(value, config);
 
           if (isPercentageMode) {
@@ -68,7 +73,7 @@ export class HealthMetricVisComponent extends Component {
           }
 
           if (aggConfig) {
-            if (!isPercentageMode) value = aggConfig.fieldFormatter('html')(value);
+            if (!isPercentageMode) value = this._getFormattedValue(aggConfig.fieldFormatter('html'), value);
             if (bucketAgg) {
               const bucketValue = bucketAgg.fieldFormatter('text')(row[0]);
               title = `${bucketValue} - ${aggConfig.makeLabel()}`;
