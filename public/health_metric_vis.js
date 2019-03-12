@@ -1,4 +1,3 @@
-import './health_metric_vis.less';
 import mainTemplate from './health_metric_vis_params.html';
 import { VisFactoryProvider } from 'ui/vis/vis_factory';
 import { CATEGORY } from 'ui/vis/vis_category';
@@ -6,7 +5,6 @@ import { Schemas } from 'ui/vis/editors/default/schemas';
 import { VisTypesRegistryProvider } from 'ui/registry/vis_types';
 import { vislibColorMaps } from 'ui/vislib/components/color/colormaps';
 import { HealthMetricVisComponent } from './health_metric_vis_controller';
-import image from './images/icon-number.svg';
 // we need to load the css ourselves
 
 // we also need to load the controller and used by the template
@@ -14,7 +12,7 @@ import image from './images/icon-number.svg';
 // register the provider with the visTypes registry 
 VisTypesRegistryProvider.register(HealthMetricVisProvider);
 
-function HealthMetricVisProvider(Private) {
+function HealthMetricVisProvider(Private, i18n) {
   const VisFactory = Private(VisFactoryProvider);
 
   // return the visType object, which kibana will use to display and configure new
@@ -22,9 +20,9 @@ function HealthMetricVisProvider(Private) {
 
   return VisFactory.createReactVisualization({
     name: 'health-metric',
-    title: 'health-metric',
-    image,
-    description: 'Displays a metric with a color according to the planned state of health',
+    title: i18n('metricVis.metricTitle', { defaultMessage: 'health-metric' }),
+    icon: 'visMetric',
+    description: i18n('metricVis.metricDescription', { defaultMessage: 'Displays a metric with a color according to the planned state of health'}),
     category: CATEGORY.DATA,
     visConfig: {
       component: HealthMetricVisComponent,
@@ -55,7 +53,20 @@ function HealthMetricVisProvider(Private) {
     },
     editorConfig: {
       collections: {
-        metricColorMode: ['None', 'Labels', 'Background'],
+        metricColorMode: [
+          {
+            id: 'None',
+            label: i18n('metricVis.colorModes.noneOptionLabel', { defaultMessage: 'None' })
+          },
+          {
+            id: 'Labels',
+            label: i18n('metricVis.colorModes.labelsOptionLabel', { defaultMessage: 'Labels' })
+          },
+          {
+            id: 'Background',
+            label: i18n('metricVis.colorModes.backgroundOptionLabel', { defaultMessage: 'Background' })
+          }
+        ],
         colorSchemas: Object.keys(vislibColorMaps)
       },
       optionsTemplate: mainTemplate,
@@ -63,7 +74,7 @@ function HealthMetricVisProvider(Private) {
         {
           group: 'metrics',
           name: 'metric',
-          title: 'Metric',
+          title: i18n('metricVis.schemas.metricTitle', { defaultMessage: 'Metric' }),
           min: 1,
           aggFilter: [
             '!std_dev', '!geo_centroid',
@@ -74,7 +85,7 @@ function HealthMetricVisProvider(Private) {
         }, {
           group: 'buckets',
           name: 'group',
-          title: 'Split Group',
+          title: i18n('metricVis.schemas.splitGroupTitle', { defaultMessage: 'Split Group' }),
           min: 0,
           max: 1,
           aggFilter: ['!geohash_grid', '!filter']

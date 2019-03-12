@@ -3,7 +3,8 @@ export default function (kibana) {
         uiExports: {
             visTypes: [
                 'plugins/health_metric_vis/health_metric_vis'
-            ]
+            ],
+            styleSheetPaths: `${__dirname}/public/index.scss`,
         }
     });
 };
