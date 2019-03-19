@@ -9,13 +9,15 @@ This plugin is inspired by the plugin [health_metric_vis](https://github.com/Dea
 
 ## Quick Start
 
-You can install this plugin in Kibana 5.x.x by doing the following instructions:
+You can install this plugin in Kibana 4/5/6 by doing the following instructions:
+
+Note: Every release package includes a Plugin version (X.Y.Z) and a Kibana version (A.B.C).
 
 ### Simple installation
 
-For kibana 6:
+For kibana 5/6:
 
-`$KIBANA_HOME/bin/kibana-plugin install https://github.com/clamarque/kibana_health_metric_vis/releases/download/v6.0/kibana_health_metric_vis-6.0.0.zip `
+`$KIBANA_HOME/bin/kibana-plugin install https://github.com/clamarque/kibana_health_metric_vis/releases/download/vX.Y/kibana_health_metric_vis-A.B.C.zip `
 
 Note: You can also look in [releases](https://github.com/clamarque/kibana_health_metric_vis/releases) for another version than this one!
 
@@ -25,12 +27,11 @@ For kibana 4:
 
 ### Offline
 
-For kibana 6:
+For kibana 5/6:
 
-* Download the plugin [here](https://github.com/clamarque/kibana_health_metric_vis/releases/download/v6.0/kibana_health_metric_vis-6.0.0.zip)
-* `$KIBANA_HOME/bin/kibana-plugin install file:///$HOME_DIRECTORY/kibana_health_metric_vis-6.0.0.zip`
+* Download the plugin [here](https://github.com/clamarque/kibana_health_metric_vis/releases)
+* `$KIBANA_HOME/bin/kibana-plugin install file:///$HOME_DIRECTORY/kibana_health_metric_vis-A.B.C.zip`
 
-Note: You can also look in [releases](https://github.com/clamarque/kibana_health_metric_vis/releases) for another version than this one!
 
 For kibana 4:
 
