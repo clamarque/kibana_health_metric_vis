@@ -54,7 +54,7 @@ You can also specify a maximum threshold **(critical)** that is not exceeded but
 
 ## Update 
 
-If the version doesn't match yours, you can create, a issue with the needed version.
+If the version doesn't match yours, you can create a issue with the needed version.
 
 ## Others plugins
 
