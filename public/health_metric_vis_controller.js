@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import classNames from 'classnames';
 
 export class HealthMetricVisComponent extends Component {
 
@@ -35,53 +34,64 @@ export class HealthMetricVisComponent extends Component {
     }
   }
 
-  _processTableGroups(tableGroups) {
+  _getFormattedValue(fieldFormatter, value) {
+    if (_.isNaN(value)) return '-';
+    return fieldFormatter(value);
+  }
+
+  _processTableGroups(table) {
     const config = this.props.vis.params.metric;
     const isPercentageMode = config.percentageMode;  
     const min = config.colorsRange[0].from;
     const max = _.last(config.colorsRange).to;
     const metrics = [];
 
-    tableGroups.tables.forEach((table) => {
-      let bucketAgg;
+    let bucketAgg;
+    let bucketColumnId;
+    let rowHeaderIndex;
 
-      table.columns.forEach((column, i) => {
-        const aggConfig = column.aggConfig;
+    table.columns.forEach((column, columnIndex) => {
+      const aggConfig = column.aggConfig;
 
-        if (aggConfig && aggConfig.schema.group === 'buckets') {
-          bucketAgg = aggConfig;
-          return;
+      if (aggConfig && aggConfig.type.type === 'buckets') {
+        bucketAgg = aggConfig;
+        // Store the current index, so we later know in which position in the
+        // row array, the bucket agg key will be, so we can create filters on it.
+        rowHeaderIndex = columnIndex;
+        bucketColumnId = column.id;
+        return;
+      }
+
+      table.rows.forEach((row, rowIndex) => {
+        let title = column.name;
+        let value = row[column.id];
+        const updateColor = this._setColor(value, config);
+
+        if (isPercentageMode) {
+          const percentage = Math.round(100 * (value - min) / (max - min));
+          value = `${percentage}%`;
         }
 
-        table.rows.forEach(row => {
-
-          let title = column.title;
-          let value = row[i];
-          const updateColor = this._setColor(value, config);
-
-          if (isPercentageMode) {
-            const percentage = Math.round(100 * (value - min) / (max - min));
-            value = `${percentage}%`;
+        if (aggConfig) {
+          if (!isPercentageMode) value = this._getFormattedValue(aggConfig.fieldFormatter('html'), value);
+          if (bucketAgg) {
+            const bucketValue = bucketAgg.fieldFormatter('text')(row[bucketColumnId]);
+            title = `${bucketValue} - ${aggConfig.makeLabel()}`;
+          } else {
+            title = aggConfig.makeLabel();
           }
+        }
 
-          if (aggConfig) {
-            if (!isPercentageMode) value = aggConfig.fieldFormatter('html')(value);
-            if (bucketAgg) {
-              const bucketValue = bucketAgg.fieldFormatter('text')(row[0]);
-              title = `${bucketValue} - ${aggConfig.makeLabel()}`;
-            } else {
-              title = aggConfig.makeLabel();
-            }
-          }
-
-          metrics.push({
-            label: title,
-            value: value,
-            colorThreshold: updateColor
-          });
+        metrics.push({
+          label: title,
+          value: value,
+          colorThreshold: updateColor,
+          rowIndex: rowIndex,
+          columnIndex: rowHeaderIndex,
+          bucketAgg: bucketAgg 
         });
-      });
-    });
+      })
+    })
 
     return metrics;
   }
@@ -94,16 +104,16 @@ export class HealthMetricVisComponent extends Component {
 
     return (
       <div
-        className="metric-vis-container"
+        className="mtrVis__container"
         style={{ backgroundColor: metric.colorThreshold }}
       >
         <div
           key={index}
-          className="metric-container"
+          className="mtrVis__container"
           style={{ backgroundColor: metric.bgColor }}
         >
           <div
-            className="metric-value"
+            className="mtrVis__value"
             style={metricValueStyle}
             dangerouslySetInnerHTML={{ __html: metric.value }}
           />
@@ -121,7 +131,7 @@ export class HealthMetricVisComponent extends Component {
       const metrics = this._processTableGroups(this.props.visData);
       metricsHtml = metrics.map(this._renderMetric);
     }
-    return (<div className="metric-vis">{metricsHtml}</div>);
+    return (<div className="mtrVis">{metricsHtml}</div>);
   }
 
   componentDidMount() {
