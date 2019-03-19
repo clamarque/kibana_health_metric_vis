@@ -104,16 +104,16 @@ export class HealthMetricVisComponent extends Component {
 
     return (
       <div
-        className="metric-vis-container"
+        className="mtrVis__container"
         style={{ backgroundColor: metric.colorThreshold }}
       >
         <div
           key={index}
-          className="metric-container"
+          className="mtrVis__container"
           style={{ backgroundColor: metric.bgColor }}
         >
           <div
-            className="metric-value"
+            className="mtrVis__value"
             style={metricValueStyle}
             dangerouslySetInnerHTML={{ __html: metric.value }}
           />
@@ -131,7 +131,7 @@ export class HealthMetricVisComponent extends Component {
       const metrics = this._processTableGroups(this.props.visData);
       metricsHtml = metrics.map(this._renderMetric);
     }
-    return (<div className="metric-vis">{metricsHtml}</div>);
+    return (<div className="mtrVis">{metricsHtml}</div>);
   }
 
   componentDidMount() {
