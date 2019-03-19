@@ -54,7 +54,7 @@ You can also specify a maximum threshold **(critical)** that is not exceeded but
 
 ## Update 
 
-If the version doesn't match yours, you can send me a pull request with the latest version. For that, you need to modify the package.json with your version. I will create a new release with it.
+If the version doesn't match yours, you can create, a issue with the needed version.
 
 ## Others plugins
 
