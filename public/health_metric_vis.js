@@ -1,6 +1,5 @@
 import mainTemplate from './health_metric_vis_params.html';
 import { VisFactoryProvider } from 'ui/vis/vis_factory';
-import { CATEGORY } from 'ui/vis/vis_category';
 import { Schemas } from 'ui/vis/editors/default/schemas';
 import { VisTypesRegistryProvider } from 'ui/registry/vis_types';
 import { vislibColorMaps } from 'ui/vislib/components/color/colormaps';
@@ -23,7 +22,6 @@ function HealthMetricVisProvider(Private, i18n) {
     title: i18n('metricVis.metricTitle', { defaultMessage: 'health-metric' }),
     icon: 'visMetric',
     description: i18n('metricVis.metricDescription', { defaultMessage: 'Displays a metric with a color according to the planned state of health'}),
-    category: CATEGORY.DATA,
     visConfig: {
       component: HealthMetricVisComponent,
       defaults: {
@@ -67,7 +65,7 @@ function HealthMetricVisProvider(Private, i18n) {
             label: i18n('metricVis.colorModes.backgroundOptionLabel', { defaultMessage: 'Background' })
           }
         ],
-        colorSchemas: Object.keys(vislibColorMaps)
+        colorSchemas: Object.keys(vislibColorMaps).map(value => ({ id: value.id, label: value.label })),
       },
       optionsTemplate: mainTemplate,
       schemas: new Schemas([
