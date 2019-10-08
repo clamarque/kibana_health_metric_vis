@@ -2,6 +2,7 @@ import { resolve } from 'path';
 import { existsSync } from 'fs';
 
 export default function (kibana) {
+    console.log('getCSS', resolve(__dirname, 'public/index.scss'));
     return new kibana.Plugin({
         uiExports: {
             visTypes: [
