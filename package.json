@@ -1,8 +1,8 @@
 {
     "name": "health_metric_vis",
-    "version": "6.7.x",
+    "version": "6.6.x",
     "kibana": {
-        "version": "6.7.x"
+        "version": "6.6.x"
     },
     "author": "clamarque",
     "description": "change color of metric depending to the planned state of health",
