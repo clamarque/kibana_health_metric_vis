@@ -1,3 +1,4 @@
+import './index.less';
 import mainTemplate from './health_metric_vis_params.html';
 import { VisFactoryProvider } from 'ui/vis/vis_factory';
 import { Schemas } from 'ui/vis/editors/default/schemas';
