@@ -1,14 +1,14 @@
-<div class="kuiSideBarSection">
+<div id="visEditorSidebar__section">
   <!-- Percentage Mode -->
-  <div class="kuiSideBarFormRow">
+  <div class="visEditorSidebar__formRow">
     <label
-      class="kuiSideBarFormRow__label"
+      class="visEditorSidebar__formLabel"
       for="percentageMode"
       i18n-id="metricVis.params.percentageModeLabel"
       i18n-default-message="Percentage Mode"
     >
     </label>
-    <div class="kuiSideBarFormRow__control">
+    <div class="visEditorSidebar__formControl">
       <input
         class="kuiCheckBox"
         id="percentageMode"
@@ -18,15 +18,15 @@
     </div>
   </div>
   <!-- show Labels -->
-  <div class="kuiSideBarFormRow">
+  <div class="visEditorSidebar__formRow">
     <label
-      class="kuiSideBarFormRow__label"
+      class="visEditorSidebar__formLabel"
       for="showLabels"
       i18n-id="metricVis.params.showLabelsLabel"
       i18n-default-message="Show Labels"
     >
     </label>
-    <div class="kuiSideBarFormRow__control">
+    <div class="visEditorSidebar__formControl">
       <input
         class="kuiCheckBox"
         id="showLabels"
@@ -37,41 +37,34 @@
   </div>
 
   <!-- Style -->
-  <div>
-    <div class="kuiSideBarCollapsibleTitle">
+  <div class="visEditorSidebar__collapsible--margin">
+    <div class="visEditorSidebar__collapsibleTitle">
       <div
         kbn-accessible-click
         aria-expanded="{{ !!showStyle }}"
         aria-controls="metricOptionsStyle"
         aria-label="{{::'metricVis.params.style.toggleOptionsAriaLabel' | i18n: { defaultMessage: 'Toggle style options' } }}"
-        class="kuiSideBarCollapsibleTitle__label"
+        class="visEditorSidebar__collapsibleTitleLabel"
         ng-click="showStyle = !showStyle"
       >
-        <span
-          aria-hidden="true"
-          ng-class="{
-            'fa-caret-down': showStyle,
-            'fa-caret-right': !showStyle
-            }"
-          class="fa fa-caret-right kuiSideBarCollapsibleTitle__caret"
-        ></span>
-        <span
-          class="kuiSideBarCollapsibleTitle__text"
-          i18n-id="metricVis.params.style.styleTitle"
-          i18n-default-message="Style"
-        >
-        </span>
+      <icon color="'primary'" aria-hidden="true" ng-if="showStyle" type="'arrowDown'" size="'s'"></icon>
+      <icon color="'primary'" aria-hidden="true" ng-if="!showStyle" type="'arrowRight'" size="'s'"></icon>
+      <span 
+      class="visEditorSidebar__collapsibleTitleText"
+      i18n-id="metricVis.params.style.styleTitle"
+      i18n-default-message="Style"
+      >
+      </span>
       </div>
     </div>
     <div
       id="metricOptionsStyle"
       ng-if="showStyle"
-      class="kuiSideBarCollapsibleSection"
     >
-      <div class="kuiSideBarSection">
+      <div class="visEditorSidebar__section">
         <!-- font Size -->
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="metricFontSize">
+        <div class="visEditorSidebar__formRow">
+          <label class="visEditorSidebar__formLabel" for="metricFontSize">
             <span
               i18n-id="metricVis.params.style.fontSizeLabel"
               i18n-default-message="Font Size ({fontSize}pt)"
@@ -79,7 +72,7 @@
             >
             </span>
           </label>
-          <div class="kuiSideBarFormRow__control">
+          <div class="visEditorSidebar__formControl">
             <input
               id="metricFontSize"
               type="range"
@@ -91,21 +84,16 @@
           </div>
         </div>
         <!-- font Color -->
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="metricFontColor">
+        <div class="visEditorSidebar__formRow">
+          <label class="visEditorSidebar__formLabel" for="metricFontColor">
             <span
               i18n-id="metricVis.params.style.fontSizeLabel"
               i18n-default-message="Font Color"
             >
             </span>
           </label>
-          <div class="kuiSideBarFormRow__control">
-            <input
-              type="color"
-              ng-model="editorState.params.metric.style.fontColor"
-              class="form-control view-color"
-              disabled="disabled"
-            />
+          <div class="visEditorSidebar__formControl">
+            <div class="health-status" ng-style="{'background': editorState.params.metric.style.fontColor}"></div>
             <input
               id="metricFontColor"
               type="text"
@@ -115,9 +103,9 @@
           </div>
         </div>
         <!-- RED Threshold -->
-        <div class="kuiSideBarFormRow">
+        <div class="visEditorSidebar__formRow">
           <label
-            class="kuiSideBarFormRow__label threshold"
+            class="visEditorSidebar__formLabel threshold"
             for="metricCriticalThreshold"
           >
             <span
@@ -132,7 +120,7 @@
               }} this value, the state will be critical)"
             ></span>
           </label>
-          <div class="kuiSideBarFormRow__control">
+          <div class="visEditorSidebar__formControl">
             <input
               id="metricCriticalThreshold"
               type="number"
@@ -142,9 +130,9 @@
           </div>
         </div>
         <!-- WARNING Threshold -->
-        <div class="kuiSideBarFormRow">
+        <div class="visEditorSidebar__formRow">
           <label
-            class="kuiSideBarFormRow__label threshold"
+            class="visEditorSidebar__formLabel threshold"
             for="metricWarningThreshold"
           >
             <span
@@ -159,7 +147,7 @@
               }} this value, the state will be on alert)"
             ></span>
           </label>
-          <div class="kuiSideBarFormRow__control">
+          <div class="visEditorSidebar__formControl">
             <input
               id="metricWarningThreshold"
               type="number"
@@ -168,7 +156,7 @@
             />
           </div>
         </div>
-        <div class="kuiSideBarFormRow">
+        <div class="visEditorSidebar__formRow">
           <input
             type="checkbox"
             ng-model="editorState.params.metric.style.invertScale"
@@ -176,21 +164,16 @@
           Invert Scale
         </div>
         <!-- Default color -->
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="metricDefaultColor">
+        <div class="visEditorSidebar__formRow">
+          <label class="visEditorSidebar__formLabel" for="metricDefaultColor">
             <span
               i18n-id="metricVis.params.style.fontSizeLabel"
               i18n-default-message="Default Color"
             >
             </span>
           </label>
-          <div class="kuiSideBarFormRow__control">
-            <input
-              type="color"
-              ng-model="editorState.params.metric.style.greenColor"
-              class="form-control view-color"
-              disabled="disabled"
-            />
+          <div class="visEditorSidebar__formControl">
+            <div class="health-status" ng-style="{'background': editorState.params.metric.style.greenColor}"></div>
             <input
               id="metricDefaultColor"
               type="text"
@@ -200,21 +183,16 @@
           </div>
         </div>
         <!-- Critical color -->
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="metricCriticalColor">
+        <div class="visEditorSidebar__formRow">
+          <label class="visEditorSidebar__formLabel" for="metricCriticalColor">
             <span
               i18n-id="metricVis.params.style.fontSizeLabel"
               i18n-default-message="Critical Color"
             >
             </span>
           </label>
-          <div class="kuiSideBarFormRow__control">
-            <input
-              type="color"
-              ng-model="editorState.params.metric.style.redColor"
-              class="form-control view-color"
-              disabled="disabled"
-            />
+          <div class="visEditorSidebar__formControl">
+            <div class="health-status" ng-style="{'background': editorState.params.metric.style.redColor}"></div>
             <input
               id="metricCriticalColor"
               type="text"
@@ -224,21 +202,16 @@
           </div>
         </div>
         <!-- Warning color -->
-        <div class="kuiSideBarFormRow">
-          <label class="kuiSideBarFormRow__label" for="metricWarningColor">
+        <div class="visEditorSidebar__formRow">
+          <label class="visEditorSidebar__formLabel" for="metricWarningColor">
             <span
               i18n-id="metricVis.params.style.fontSizeLabel"
               i18n-default-message="Warning Color"
             >
             </span>
           </label>
-          <div class="kuiSideBarFormRow__control">
-            <input
-              type="color"
-              ng-model="editorState.params.metric.style.yellowColor"
-              class="form-control view-color"
-              disabled="disabled"
-            />
+          <div class="visEditorSidebar__formControl">
+            <div class="health-status" ng-style="{'background': editorState.params.metric.style.yellowColor}"></div>
             <input
               id="metricWarningColor"
               type="text"

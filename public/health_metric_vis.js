@@ -51,23 +51,7 @@ function HealthMetricVisProvider(Private, i18n) {
       }
     },
     editorConfig: {
-      collections: {
-        metricColorMode: [
-          {
-            id: 'None',
-            label: i18n('metricVis.colorModes.noneOptionLabel', { defaultMessage: 'None' })
-          },
-          {
-            id: 'Labels',
-            label: i18n('metricVis.colorModes.labelsOptionLabel', { defaultMessage: 'Labels' })
-          },
-          {
-            id: 'Background',
-            label: i18n('metricVis.colorModes.backgroundOptionLabel', { defaultMessage: 'Background' })
-          }
-        ],
-        colorSchemas: Object.keys(vislibColorMaps).map(value => ({ id: value.id, label: value.label })),
-      },
+      collections: {},
       optionsTemplate: mainTemplate,
       schemas: new Schemas([
         {
