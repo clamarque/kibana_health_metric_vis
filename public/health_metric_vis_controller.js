@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
+import { getFormat } from 'ui/visualize/loader/pipeline_helpers/utilities';
 
 export class HealthMetricVisComponent extends Component {
 
@@ -34,52 +35,49 @@ export class HealthMetricVisComponent extends Component {
     }
   }
 
-  _getFormattedValue(fieldFormatter, value) {
+  _getFormattedValue(fieldFormatter, value, format = 'text') {
     if (_.isNaN(value)) return '-';
-    return fieldFormatter(value);
+    return fieldFormatter(value, format);
   }
 
   _processTableGroups(table) {
-    const config = this.props.vis.params.metric;
+    console.log('PROPS', this.props);
+    const config = this.props.visParams.metric;
+    const dimensions = this.props.visParams.dimensions;
+    console.log('DIMENSIONS', dimensions);
     const isPercentageMode = config.percentageMode;  
     const min = config.colorsRange[0].from;
     const max = _.last(config.colorsRange).to;
     const metrics = [];
 
-    let bucketAgg;
     let bucketColumnId;
-    let rowHeaderIndex;
+    let bucketFormatter;
 
-    table.columns.forEach((column, columnIndex) => {
-      const aggConfig = column.aggConfig;
+    if (dimensions.bucket) {
+      bucketColumnId = table.columns[dimensions.bucket.accessor].id;
+      bucketFormatter = getFormat(dimensions.bucket.format);
+    }
 
-      if (aggConfig && aggConfig.type.type === 'buckets') {
-        bucketAgg = aggConfig;
-        // Store the current index, so we later know in which position in the
-        // row array, the bucket agg key will be, so we can create filters on it.
-        rowHeaderIndex = columnIndex;
-        bucketColumnId = column.id;
-        return;
-      }
+    dimensions.metrics.forEach(metric => {
+      const columnIndex = metric.accessor;
+      const column = table.columns[columnIndex];
+      const formatter = getFormat(metric.format);
 
       table.rows.forEach((row, rowIndex) => {
+
         let title = column.name;
         let value = row[column.id];
-        const updateColor = this._setColor(value, config);
 
         if (isPercentageMode) {
           const percentage = Math.round(100 * (value - min) / (max - min));
           value = `${percentage}%`;
+        } else {
+          value = this._getFormattedValue(formatter, value, 'html');
         }
 
-        if (aggConfig) {
-          if (!isPercentageMode) value = this._getFormattedValue(aggConfig.fieldFormatter('html'), value);
-          if (bucketAgg) {
-            const bucketValue = bucketAgg.fieldFormatter('text')(row[bucketColumnId]);
-            title = `${bucketValue} - ${aggConfig.makeLabel()}`;
-          } else {
-            title = aggConfig.makeLabel();
-          }
+        if (bucketColumnId) {
+          const bucketValue = this._getFormattedValue(bucketFormatter, row[bucketColumnId]);
+          title = `${bucketValue} - ${title}`;
         }
 
         metrics.push({
@@ -87,52 +85,82 @@ export class HealthMetricVisComponent extends Component {
           value: value,
           colorThreshold: updateColor,
           rowIndex: rowIndex,
-          columnIndex: rowHeaderIndex,
-          bucketAgg: bucketAgg 
         });
-      })
-    })
+      });
+    });
 
     return metrics;
   }
 
-  _renderMetric = (metric, index) => {
-    const metricValueStyle = {
-      fontSize: `${this.props.vis.params.metric.style.fontSize}pt`,
-      color: `${this.props.vis.params.metric.style.fontColor}`,
-    };
+  _filterBucket = (metric) => {
+    const dimensions = this.props.visParams.dimensions;
+    if (!dimensions.bucket) {
+      return;
+    }
 
+    const table = this.props.visData;
+    this.props.vis.API.events.filter({ table, column: dimensions.bucket.accessor, row: metric.rowIndex });
+  }
+
+  _renderMetric = (metric, index) => {
     return (
-      <div
-        className="mtrVis__container"
-        style={{ backgroundColor: metric.colorThreshold }}
-      >
-        <div
-          key={index}
-          className="mtrVis__container"
-          style={{ backgroundColor: metric.bgColor }}
-        >
-          <div
-            className="mtrVis__value"
-            style={metricValueStyle}
-            dangerouslySetInnerHTML={{ __html: metric.value }}
-          />
-          {this.props.vis.params.metric.labels.show &&
-            <div>{metric.label}</div>
-          }
-        </div>
-      </div>
+      <MetricVisValue
+      key={index}
+      metric={metric}
+      fontSize={this.props.visParams.metric.style.fontSize}
+      onFilter={metric.filterKey && metric.bucketAgg ? this._filterBucket : null}
+      showLabel={this.props.visParams.metric.labels.show}
+      color={this.props.vis.params.metric.style.fontColor}
+      />
     );
-  };
+  }
 
   render() {
-    let metricsHtml;
-    if (this.props.visData) {
-      const metrics = this._processTableGroups(this.props.visData);
-      metricsHtml = metrics.map(this._renderMetric);
-    }
-    return (<div className="mtrVis">{metricsHtml}</div>);
+      let metricsHtml;
+      if (this.props.visData) {
+        const metrics = this._processTableGroups(this.props.visData);
+        metricsHtml = metrics.map(this._renderMetric);
+      }
+      return (<div className="mtrVis">{metricsHtml}</div>);
   }
+  
+
+    // const metricValueStyle = {
+    //   fontSize: `${this.props.vis.params.metric.style.fontSize}pt`,
+    //   color: `${this.props.vis.params.metric.style.fontColor}`,
+    // };
+
+    // return (
+    //   <div
+    //     className="mtrVis__container"
+    //     style={{ backgroundColor: metric.colorThreshold }}
+    //   >
+    //     <div
+    //       key={index}
+    //       className="mtrVis__container"
+    //       style={{ backgroundColor: metric.bgColor }}
+    //     >
+    //       <div
+    //         className="mtrVis__value"
+    //         style={metricValueStyle}
+    //         dangerouslySetInnerHTML={{ __html: metric.value }}
+    //       />
+    //       {this.props.vis.params.metric.labels.show &&
+    //         <div>{metric.label}</div>
+    //       }
+    //     </div>
+    //   </div>
+    // );
+
+
+  // render() {
+  //   let metricsHtml;
+  //   if (this.props.visData) {
+  //     const metrics = this._processTableGroups(this.props.visData);
+  //     metricsHtml = metrics.map(this._renderMetric);
+  //   }
+  //   return (<div className="mtrVis">{metricsHtml}</div>);
+  // }
 
   componentDidMount() {
     this.props.renderComplete();
